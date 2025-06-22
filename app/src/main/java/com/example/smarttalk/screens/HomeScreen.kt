@@ -70,8 +70,6 @@ fun HomeScreen(
     val context = LocalContext.current
     val firebaseViewModel : FirebaseChatViewmodel = hiltViewModel()
 
-    val contacts by viewModel.contacts
-
     val phone = SharedPref.get().userPhone
     val name = SharedPref.get().userName
 
