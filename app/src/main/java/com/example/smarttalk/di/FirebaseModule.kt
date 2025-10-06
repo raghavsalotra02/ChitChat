@@ -33,11 +33,5 @@ object FirebaseModule {
         return database.getReference("chats")
     }
 
-//    @Provides
-//    @Singleton
-//    @Named("chatsRef")
-//    fun provideContactsRef(database: FirebaseDatabase): DatabaseReference {
-//        return database.getReference("contacts")
-//    }
 
 }

@@ -134,6 +134,27 @@ class FirebaseChatRepository @Inject constructor(
         return result
     }
 
+    fun saveFcmToken(userId : String , token : String){
+        usersRef.child(userId).child("fcmToken").setValue(token)
+            .addOnSuccessListener {
+                Log.d("FirebaseRepository", "FCM token saved successfully")
+            }
+            .addOnFailureListener { e ->
+                Log.e("FirebaseRepository", "Failed to save FCM token", e)
+            }
+    }
+
+    fun getFcmToken(userId : String , onTokenReceived : (String?) -> Unit){
+
+        usersRef.child(userId).child("fcmToken").get()
+            .addOnSuccessListener { snapshot ->
+                onTokenReceived(snapshot.getValue(String::class.java))
+            }
+            .addOnFailureListener {
+                onTokenReceived(null)
+            }
+    }
+
 
 
 

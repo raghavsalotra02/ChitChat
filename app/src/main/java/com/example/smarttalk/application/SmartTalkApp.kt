@@ -1,4 +1,4 @@
-package com.example.smarttalk
+package com.example.smarttalk.application
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

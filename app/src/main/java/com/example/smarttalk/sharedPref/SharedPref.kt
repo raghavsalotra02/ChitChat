@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import androidx.core.content.edit
-import com.example.smarttalk.SmartTalkApp
+import com.example.smarttalk.application.SmartTalkApp
 
 class SharedPref {
 
