@@ -2,6 +2,9 @@ package com.example.smarttalk.screens
 
 import android.Manifest
 import android.content.Intent
+import android.net.Uri
+import android.provider.Telephony
+import android.widget.Toast
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -58,6 +61,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -170,7 +175,9 @@ fun HomeScreen(
 }
 
 @Composable
-fun ChatItemContacts( name : String , lastMessage : String, canChat : Boolean, modifier: Modifier){
+fun ChatItemContacts( name : String , lastMessage : String, canChat : Boolean, modifier: Modifier, phone : String? = null){
+
+    val context = LocalContext.current
 
     Box(modifier = modifier
         .fillMaxWidth(),
@@ -204,7 +211,35 @@ fun ChatItemContacts( name : String , lastMessage : String, canChat : Boolean, m
                     }
                 }
                 if(!canChat){
-                    Text(text = "Invite + ", color = theme_blue, fontWeight = FontWeight.Bold, modifier = Modifier.padding(end = 10.dp))
+                    Text(
+                        text = "Invite + ",
+                        color = theme_blue,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                            .padding(end = 10.dp)
+                            .clickable{
+                                val inviteMessage = "Hey! Join me on ChitChat app. Download it here: https://yourapp.link"
+
+                                val smsUri = Uri.parse("smsto:$phone")
+                                val smsIntent = Intent(Intent.ACTION_SENDTO, smsUri).apply {
+                                    putExtra("sms_body", inviteMessage)
+                                }
+
+                                // Get the package name of the default SMS app
+                                val defaultSmsPackage = Telephony.Sms.getDefaultSmsPackage(context)
+
+                                if (defaultSmsPackage != null) {
+                                    // Explicitly open the system SMS app
+                                    smsIntent.setPackage(defaultSmsPackage)
+                                }
+
+                                try {
+                                    context.startActivity(smsIntent)
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                    Toast.makeText(context, "No SMS app found", Toast.LENGTH_SHORT).show()
+                                }
+                            })
                 }
             }
             Divider(color = Color.LightGray, thickness = 0.7.dp)

@@ -127,7 +127,8 @@ fun ContactsScreen(
                                 name = item.name,
                                 lastMessage = item.phoneNumber,
                                 canChat = item.isOnApp,
-                                modifier = clickableModifier
+                                modifier = clickableModifier,
+                                phone = item.phoneNumber
                             )
                         }
                     }
