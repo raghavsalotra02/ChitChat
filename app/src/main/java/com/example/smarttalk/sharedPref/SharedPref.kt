@@ -24,6 +24,7 @@ class SharedPref {
     private val USER_NAME = "user_name"
     private val USER_PHONE = "user_phone"
     private val LOGGED_IN = "logged_in"
+    private val FCM_TOKEN = "fcm_token"
 
     private val sharedPref : SharedPreferences =
         SmartTalkApp.get().getContext().getSharedPreferences("Prefs", Context.MODE_PRIVATE)
@@ -35,6 +36,19 @@ class SharedPref {
         set(value){
             sharedPref.edit {
                 putBoolean(LOGGED_IN,value)
+            }
+        }
+
+    var fcmToken : String?
+        get() {
+            val str = sharedPref.getString(FCM_TOKEN,"") ?: ""
+            if(!str.isNullOrBlank()){
+                return str
+            }
+            return null        }
+        set(value) {
+            sharedPref.edit {
+                putString(FCM_TOKEN,value)
             }
         }
 

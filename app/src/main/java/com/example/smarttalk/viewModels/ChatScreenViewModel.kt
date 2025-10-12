@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.smarttalk.Model.ChatMessage
 import com.example.smarttalk.Roomdatabase.ChatEntity
+import com.example.smarttalk.repository.NotificationRepository
 import com.example.smarttalk.repository.OpenAIRepository
 import com.example.smarttalk.repository.SavedChatsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,7 +14,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ChatScreenViewModel @Inject constructor(private val repository : OpenAIRepository, private val dbRepository : SavedChatsRepository): ViewModel(){
+class ChatScreenViewModel @Inject constructor(
+    private val repository : OpenAIRepository,
+    private val dbRepository : SavedChatsRepository,
+    private val notificationRepository: NotificationRepository
+): ViewModel(){
 
     init {
         viewModelScope.launch {
@@ -53,6 +58,7 @@ class ChatScreenViewModel @Inject constructor(private val repository : OpenAIRep
 
         _messages.value = listOf(userMessage) +  _messages.value
         _userInput.value = ""
+        
 
         viewModelScope.launch {
             val aiResponse = repository.fetchAIResponse(userMessage.content)

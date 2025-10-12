@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.example.smarttalk.Model.Message
 import com.example.smarttalk.Model.User
 import com.example.smarttalk.repository.FirebaseChatRepository
+import com.example.smarttalk.repository.NotificationRepository
 import com.example.smarttalk.sharedPref.SharedPref
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -16,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FirebaseChatViewmodel @Inject constructor(
-    private val chatRepository : FirebaseChatRepository
+    private val chatRepository : FirebaseChatRepository,
+    private val notificationRepo: NotificationRepository
 ) : ViewModel() {
 
 
@@ -48,6 +50,7 @@ class FirebaseChatViewmodel @Inject constructor(
     }
 
     fun sendMessage(senderNumber: String,receiverNumber : String,message: String){
+
         chatRepository.sendMessage(senderNumber,receiverNumber,message)
     }
 

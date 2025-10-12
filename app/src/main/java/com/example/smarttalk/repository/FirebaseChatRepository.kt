@@ -23,6 +23,7 @@ import javax.inject.Named
 class FirebaseChatRepository @Inject constructor(
     @Named("usersRef")private val usersRef: DatabaseReference,
     @Named("chatsRef") private val chatsRef: DatabaseReference,
+    val notificationRepo: NotificationRepository
 ) {
 
     private val _messagesList = MutableStateFlow<List<Message>>(emptyList())
@@ -88,7 +89,17 @@ class FirebaseChatRepository @Inject constructor(
             seen = false,
             delivered = false
         )
-        messagesRef.child(messageId).setValue(message)
+        messagesRef.child(messageId).setValue(message).addOnSuccessListener {
+
+            usersRef.child(senderPhone).child("fcmToken")
+                .get().addOnSuccessListener { snapshot ->
+                    val token = snapshot.getValue(String::class.java)
+                    token?.let {
+                        notificationRepo.sendNotification(it, "New Message", message.text)
+                    }
+                }
+
+        }
     }
 
     fun getChat( phoneNumber : String) {
@@ -134,15 +145,15 @@ class FirebaseChatRepository @Inject constructor(
         return result
     }
 
-    fun saveFcmToken(userId : String , token : String){
-        usersRef.child(userId).child("fcmToken").setValue(token)
-            .addOnSuccessListener {
-                Log.d("FirebaseRepository", "FCM token saved successfully")
-            }
-            .addOnFailureListener { e ->
-                Log.e("FirebaseRepository", "Failed to save FCM token", e)
-            }
-    }
+//    fun saveFcmToken(userId : String , token : String){
+//        usersRef.child(userId).child("fcmToken").setValue(token)
+//            .addOnSuccessListener {
+//                Log.d("FirebaseRepository", "FCM token saved successfully")
+//            }
+//            .addOnFailureListener { e ->
+//                Log.e("FirebaseRepository", "Failed to save FCM token", e)
+//            }
+//    }
 
     fun getFcmToken(userId : String , onTokenReceived : (String?) -> Unit){
 

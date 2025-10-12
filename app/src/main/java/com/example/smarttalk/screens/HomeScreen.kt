@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.net.Uri
 import android.provider.Telephony
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -94,6 +95,8 @@ fun HomeScreen(
         permissionState.launchPermissionRequest()
     }
 
+    val token = SharedPref.get().fcmToken ?: "not getting token"
+    Log.d("FCM_TOKEN", token)
     LaunchedEffect(permissionState.status.isGranted) {
         if (permissionState.status.isGranted) {
             viewModel.readContacts()

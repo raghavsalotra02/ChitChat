@@ -18,11 +18,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 import com.example.smarttalk.BuildConfig
+import com.example.smarttalk.api.FCMApiInterface
+import javax.inject.Named
 
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
     private const val BASE_URL = "https://api.openai.com/"
+    private const val FCM_BASE_URL = "https://fcm.googleapis.com/"
 
     @Provides
     @Singleton
@@ -44,6 +47,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    @Named("openAI")
     fun providesRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -54,7 +58,25 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun providesOPenAIApiService(retrofit: Retrofit): OpenAIInterface{
+    @Named("FCM")
+    fun providesRetrofitFCM(okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(FCM_BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+
+    @Provides
+    @Singleton
+    fun providesFCMApi(@Named("FCM") retrofit: Retrofit) : FCMApiInterface{
+        return retrofit.create(FCMApiInterface::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providesOPenAIApiService(@Named("openAI") retrofit: Retrofit): OpenAIInterface{
         return retrofit.create(OpenAIInterface::class.java)
     }
 

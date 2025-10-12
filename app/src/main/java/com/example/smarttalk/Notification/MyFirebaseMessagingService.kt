@@ -30,11 +30,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         println("token : $token")
-        val userId = SharedPref.get().userPhone
-        if (!userId.isNullOrEmpty()) {
-            firebaseChatRepository.saveFcmToken(userId, token)
-        }
-
+        SharedPref.get().fcmToken = token
     }
 
 
