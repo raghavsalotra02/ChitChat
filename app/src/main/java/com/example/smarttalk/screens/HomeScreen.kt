@@ -116,17 +116,32 @@ fun HomeScreen(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically){
                 Text( modifier = Modifier.padding(start = 16.dp),text = "ChitChat", color = Color.White,fontSize = 24.sp)
-                Icon(
-                    painter = painterResource(R.drawable.icon_ai),
-                    contentDescription = "ai",
-                    modifier = Modifier.size(50.dp)
-                        .padding(10.dp)
-                        .clickable {
-                            val intent = Intent(context,ChatActivity::class.java)
-                            context.startActivity(intent)
-                        },
-                    tint = Color.Unspecified
-                )
+
+                Row(){
+                    Icon(
+                        painter = painterResource(R.drawable.icon_ai),
+                        contentDescription = "ai",
+                        modifier = Modifier.size(50.dp)
+                            .padding(10.dp)
+                            .clickable {
+                                val intent = Intent(context,ChatActivity::class.java)
+                                context.startActivity(intent)
+                            },
+                        tint = Color.Unspecified
+                    )
+                    Icon(
+                        painter = painterResource(R.drawable.ic_profile),
+                        contentDescription = "profileIcon",
+                        modifier = Modifier.size(53.dp)
+                            .padding(10.dp)
+                            .clickable {
+                                navController.navigate(Routes.profileScreen.route)
+                            },
+                        tint = Color.Unspecified
+                    )
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                }
             }
         }
     ) { innerPadding ->

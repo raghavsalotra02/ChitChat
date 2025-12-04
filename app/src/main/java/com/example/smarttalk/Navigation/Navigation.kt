@@ -15,10 +15,12 @@ import com.example.smarttalk.screens.ContactsScreen
 import com.example.smarttalk.screens.HomeScreen
 import com.example.smarttalk.screens.LoginScreen
 import com.example.smarttalk.screens.OTPScreen
+import com.example.smarttalk.screens.ProfileScreen
 import com.example.smarttalk.screens.SplashScreen
 import com.example.smarttalk.screens.UserChatScreen
 import com.example.smarttalk.viewModels.AuthViewModel
 import com.example.smarttalk.viewModels.HomeScreenViewModel
+import okhttp3.Route
 
 @Composable
 fun Navigation(authViewModel: AuthViewModel){
@@ -77,6 +79,10 @@ fun Navigation(authViewModel: AuthViewModel){
             val number = it.arguments?.getString("number")
             val name = it.arguments?.getString("name")
             UserChatScreen( navController = navController , number = number, name = name)
+        }
+
+        composable( route = Routes.profileScreen.route) { backStackEntry ->
+            ProfileScreen(navController = navController)
         }
 
     }

@@ -87,6 +87,7 @@ dependencies {
 
     implementation("androidx.compose.material3:material3:1.2.0")
 
+    implementation("io.coil-kt:coil-compose:2.4.0")
 
     implementation("com.google.dagger:hilt-android:2.51.1")
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")

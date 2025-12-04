@@ -62,7 +62,6 @@ import com.example.smarttalk.ui.theme.lightGrey
 import com.example.smarttalk.ui.theme.theme_blue
 import com.example.smarttalk.utils.formatTimestamp
 import com.example.smarttalk.viewModels.FirebaseChatViewmodel
-import okhttp3.internal.Util
 
 
 @SuppressLint("StateFlowValueCalledInComposition")
